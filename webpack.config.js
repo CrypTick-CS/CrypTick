@@ -10,7 +10,7 @@ module.exports = {
     mode: process.env.NODE_ENV,
     devServer: {
       proxy: {
-          '/': 'http://localhost:3000/'
+          '/api': 'http://localhost:3000/'
       }
     },
     module: {

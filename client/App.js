@@ -8,15 +8,18 @@ class App extends React.Component {
     };
   }
 
-  componentDidMount() {
-    fetch('/').then(res => res.json()).then(res => {
-      this.setState({text: res})
-    });
+  click() {
+    fetch('/api').then(res => res.json()).then(res => {
+      this.setState({text: res.text})})
   }
 
   render() {
     return (
-      <div>{this.state.text}</div>
+      <div>
+        <div>alrighty</div>
+        <div>{this.state.text}</div>
+        <button onClick={this.click.bind(this)}>click me</button>
+      </div>
     );
   }
 

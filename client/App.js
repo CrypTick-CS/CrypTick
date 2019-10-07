@@ -1,4 +1,5 @@
 import React from 'react';
+import PriceVis from './Components/PriceVis';
 
 class App extends React.Component {
   constructor() {
@@ -11,7 +12,7 @@ class App extends React.Component {
   render() {
     return (
       <div>
-        
+        <PriceVis />
       </div>
     );
   }

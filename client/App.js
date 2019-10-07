@@ -8,15 +8,11 @@ class App extends React.Component {
     };
   }
 
-  componentDidMount() {
-    fetch('/').then(res => res.json()).then(res => {
-      this.setState({text: res})
-    });
-  }
-
   render() {
     return (
-      <div>{this.state.text}</div>
+      <div>
+        
+      </div>
     );
   }
 

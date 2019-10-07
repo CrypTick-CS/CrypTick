@@ -8,6 +8,11 @@ module.exports = {
         publicPath: '/build/'
     },
     mode: process.env.NODE_ENV,
+    devServer: {
+      proxy: {
+          '/': 'http://localhost:3000/'
+      }
+    },
     module: {
         rules: [
             {

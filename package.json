@@ -4,8 +4,9 @@
   "description": "- Cryptocurrency Trading Practice Tool",
   "main": "webpack.config.js",
   "scripts": {
+    "start": "node server/server.js",
     "build": "NODE_ENV=production webpack",
-    "dev": "NODE_ENV=development webpack-dev-server --open"
+    "dev": "NODE_ENV=development webpack-dev-server --open | npm run start"
   },
   "repository": {
     "type": "git",
@@ -21,6 +22,7 @@
     "@babel/core": "^7.5.5",
     "@babel/preset-env": "^7.6.2",
     "@babel/preset-react": "^7.0.0",
+    "express": "^4.17.1",
     "react": "^16.10.2",
     "react-dom": "^16.10.2"
   },

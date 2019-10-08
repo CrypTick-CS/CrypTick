@@ -1,4 +1,4 @@
-const app = require('./app');
+const app = require('./app_server');
 
 // conventional server functionality split into separate app.js
 // in order to be able to test express using Jest

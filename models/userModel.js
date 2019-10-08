@@ -11,10 +11,9 @@ const historyItemSchema = new mongoose.Schema({
 })
 
 const userSchema = new mongoose.Schema({
-  name: {type: String, required: true},
   email: {type: String, required: true},
-  startDate: {type: Date, required: true, default: Date.now},
   password: {type: String, required: true},
+  startDate: {type: Date, required: true, default: Date.now},
   history: {
     type: [historyItemSchema],
   },
@@ -22,5 +21,5 @@ const userSchema = new mongoose.Schema({
 
 const User = mongoose.model('user', userSchema);
 
-export default User;
+module.exports = User
 

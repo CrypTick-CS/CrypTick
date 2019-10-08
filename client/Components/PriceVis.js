@@ -1,5 +1,4 @@
 import React from 'react';
-// import '../node_modules/react-vis/dist/style.css';
 import {HorizontalGridLines,
   VerticalGridLines,
   XAxis,
@@ -10,8 +9,7 @@ class PriceVis extends React.Component {
   constructor() {
     super();
     this.state = {
-      data: [
-      ],
+      data: [],
       counter: 0
     }
   }
@@ -20,7 +18,6 @@ class PriceVis extends React.Component {
     setInterval(() => {
       fetch('https://min-api.cryptocompare.com/data/pricemulti?fsyms=BTC&tsyms=USD&api_key=c3928dbf8fd1c2f62b730f46a5fff3d1ba38535ecd0609cb68c95c31d92edd25').then(res => res.json())
       .then(res => {
-        console.log(res);
         this.setState({
           data: this.state.data.concat({x: Date.now(), y: res['BTC']['USD']}).slice(-30)})
       })
@@ -35,10 +32,14 @@ class PriceVis extends React.Component {
           <HorizontalGridLines />
           <XAxis />
           <YAxis />
-          <LineMarkSeries         style={{
-          strokeLinejoin: 'round',
-          strokeWidth: 4
-        }} animation data={this.state.data} />
+          <LineMarkSeries 
+            style={{
+              strokeLinejoin: 'round',
+              strokeWidth: 4
+            }} 
+            animation 
+            data={this.state.data} 
+          />
         </XYPlot>
       </div>
     )

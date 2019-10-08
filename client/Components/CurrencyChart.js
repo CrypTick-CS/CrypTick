@@ -6,6 +6,7 @@ import {
   XYPlot,
   YAxis, LineMarkSeries
 } from 'react-vis';
+import config from '../../config';
 
 class CurrencyChart extends React.Component {
   constructor() {
@@ -17,7 +18,7 @@ class CurrencyChart extends React.Component {
 
   componentDidMount() {
     setInterval(() => {
-      fetch('https://min-api.cryptocompare.com/data/pricemulti?fsyms=BTC&tsyms=USD&api_key=c3928dbf8fd1c2f62b730f46a5fff3d1ba38535ecd0609cb68c95c31d92edd25').then(res => res.json())
+      fetch(`https://min-api.cryptocompare.com/data/pricemulti?fsyms=BTC&tsyms=USD&api_key=${config.key}`).then(res => res.json())
       .then(res => {
         this.setState({
           data: this.state.data.concat({x: Date.now(), y: res['BTC']['USD']}).slice(-30)})

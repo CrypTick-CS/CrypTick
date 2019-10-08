@@ -11,12 +11,9 @@ const Input = styled.input`
   padding: 6px 3px;
   width: 100%;
   background: black;
-  /* margin: ${props => props.size};
-  padding: ${props => props.size}; */
 `;
 
 const Button = styled.button`
-  /* Adapt the colors based on primary prop */
   background: black;
   color: greenyellow;
   font-size: 1em;
@@ -24,12 +21,10 @@ const Button = styled.button`
   padding: 0.25em 1em;
   border: 2px midnightblue;
   border-radius: 10px;
-  
 `;
 
 const Title = styled.div`
   font-family: 'Audiowide', cursive;
-  /* font-style: bold; */
   font-size: 68px;
   margin-bottom: 40px;
   color: greenyellow;

@@ -13,8 +13,6 @@ const Main = styled.div`
     background: midnightblue;
 `;
 
-
-
 class App extends React.Component {
   constructor(props) {
     super(props);

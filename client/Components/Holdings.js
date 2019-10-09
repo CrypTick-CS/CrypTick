@@ -2,9 +2,10 @@ import React from 'react';
 import styled from 'styled-components';
 
 const HoldingsDiv = styled.div`
-
+    background: #393E44;
+    padding: 25px;
+    border-radius: 10px;
 `;
-
 const HoldingsTitle = styled.div`
 
 `;

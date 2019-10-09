@@ -7,6 +7,14 @@ import {
   YAxis, LineMarkSeries
 } from 'react-vis';
 import config from '../../config';
+import styled from 'styled-components';
+
+const CurrencyChartDiv = styled.div`
+    margin-top: 10px;
+    background: #393E44;
+    padding: 25px;
+    border-radius: 10px;
+`;
 
 class CurrencyChart extends React.Component {
   constructor() {
@@ -35,7 +43,7 @@ class CurrencyChart extends React.Component {
 
   render() {
     return (
-      <div>
+      <CurrencyChartDiv>
         <XYPlot height={600} width={600}>
           <VerticalGridLines />
           <HorizontalGridLines />
@@ -50,7 +58,7 @@ class CurrencyChart extends React.Component {
             data={this.state.data} 
           />
         </XYPlot>
-      </div>
+      </CurrencyChartDiv>
     )
   }
 }

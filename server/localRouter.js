@@ -11,7 +11,7 @@ localRouter.post('/signup', userController.createUser, (req, res, next)=>{
 
 localRouter.post('/login', userController.verifyUser, (req, res, next)=>{
   // res.status(200).json(res.locals)
-  res.json('end of request')
+  res.status(200).json('end of request')
   console.log('end of verifyUser')
 })
 

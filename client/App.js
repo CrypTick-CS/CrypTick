@@ -19,7 +19,8 @@ class App extends React.Component {
     this.state = {
       isAuthenticated: false,
       dollarBalance: 0,
-      bitcoinBalance: 0
+      bitcoinBalance: 0,
+      isError: false
     };
   }
 
@@ -32,6 +33,13 @@ class App extends React.Component {
         'Content-Type': 'application/json'
       }
     })
+    .then(res => {
+      console.log(res);
+      if (res.status === 400) {
+        this.setState({ isError: true })
+        throw new Error('Invalid username or password');
+      };
+    })
     .then(res => res.json())
     .then(res => {
       console.log(res);
@@ -42,7 +50,9 @@ class App extends React.Component {
       });
       this.props.history.push('/');
     })
-    .catch(err => console.error(err))
+    .catch(err => {
+      console.error(err);
+    })
   }
 
   signup(userData) {
@@ -70,7 +80,7 @@ class App extends React.Component {
   render() {
     return (
         <Main>
-          <Route exact path="/login" component={() => <Login authenticate={this.authenticate.bind(this)} signup={this.signup.bind(this)} />} />
+          <Route exact path="/login" component={() => <Login authenticate={this.authenticate.bind(this)} signup={this.signup.bind(this)} isError={this.state.isError} />} />
           <PrivateRoute exact path="/" authenticated={this.state.isAuthenticated} component={() => <Dashboard dollarBalance={this.state.dollarBalance} bitcoinBalance={this.state.bitcoinBalance} />} />
         </Main>
     );

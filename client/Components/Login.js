@@ -42,11 +42,18 @@ const LoginDiv = styled.div`
     border-radius: 10px;
 `;
 
+const ErrorMessage = styled.div`
+  text-align: center;
+  color: red;
+  font-family: "Arial";
+  font-size: 13px;
+`;
+
 const Login = (props) => {
 
   let [email, setEmail] = useState('');
   let [password, setPassword] = useState('');
-
+  console.log('isError in login',props.isError);
   return (
     <LoginDiv>
       <Title>CrypTick</Title>
@@ -54,6 +61,10 @@ const Login = (props) => {
         <Input type="text" placeholder="Enter Email" className="email" onChange={e => setEmail(e.target.value)}/>
         <Input type="text" placeholder="Enter Password" className="password" onChange={e => setPassword(e.target.value)}/>
       </div>
+      {props.isError && 
+      <ErrorMessage>
+        Incorrect email and/or password.
+      </ErrorMessage>}
       <Buttons>
         <Button className="login-btn" onClick={() => props.authenticate({email, password})}>Login</Button>
         <Button className="signup-btn" onClick={() => props.signup({email, password})}>Signup</Button>

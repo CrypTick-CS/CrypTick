@@ -31,6 +31,12 @@ userController.createUser = (req, res, next) => {
     console.error(err);
   }
 
+  next();
+
+}
+
+userController.verifyUser = (req, res, next) => {
+  
 }
 
 userController.addTransaction = (req, res, next) => {

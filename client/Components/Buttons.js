@@ -12,9 +12,12 @@ const Button = styled.button`
 `;
 
 const ButtonsDiv = styled.div`
+    margin-top: 10px;
     display: flex;
     justify-content: space-around;
-    width: 100%;
+    background: #393E44;
+    padding: 25px;
+    border-radius: 10px;
 `;
 
 const Buttons = () => {

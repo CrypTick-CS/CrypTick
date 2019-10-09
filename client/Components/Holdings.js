@@ -38,6 +38,10 @@ const Holdings = (props) => {
         <HoldingsBalance className="holdings-btc-balance">{props.bitcoinBalance}</HoldingsBalance>
         <HoldingsLabel>Invested Balance USD</HoldingsLabel>
       </HoldingsContainer>
+      <HoldingsContainer>
+        <HoldingsBalance className="holdings-btc-balance">0</HoldingsBalance>
+        <HoldingsLabel>Total BTC Value</HoldingsLabel>
+      </HoldingsContainer>
     </HoldingsDiv>
   )
 }

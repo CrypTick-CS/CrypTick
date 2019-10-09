@@ -6,18 +6,29 @@ dotenv.config({
   path: path.join(__dirname, '../.env')
 });
 
-const dbConnection = process.env.DATABASE_URI;
+const dbURI = process.env.DATABASE_URI;
 
-mongoose.connect(dbConnection, {
-  dbName: 'CrypTick',
-  useNewUrlParser: true
-})
-.catch(err => console.log(err));
 
-mongoose.connection.on('error', ()=>{
-  console.error(error)
-});
+const dbConnection = ()=>{
 
-mongoose.connection.on('close', ()=>{
-  console.log('the connection has been closed')
-})
+  mongoose.connect(dbURI, {
+    dbName: 'CrypTick',
+    useNewUrlParser: true
+  })
+  .catch(err => console.log(err));
+  
+  mongoose.connection.on('open', ()=>{
+    console.log('Connected to database!')
+  })
+  
+  mongoose.connection.on('error', ()=>{
+    console.error(error)
+  });
+  
+  mongoose.connection.on('close', ()=>{
+    console.log('the connection has been closed')
+  });
+
+}
+
+module.exports = dbConnection

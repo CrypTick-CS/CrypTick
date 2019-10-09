@@ -4,13 +4,15 @@ const userController = require('../controllers/userController');
 
 localRouter.post('/signup', userController.createUser, (req, res, next)=>{
   res.status(200).json({
-    item1: res.locals.user,
-    item2: 'hello world'
+    dollarBalance: 100000,
+    bitcoinBalance: 0
   })
 });
 
 localRouter.post('/login', userController.verifyUser, (req, res, next)=>{
-  res.status(200).json('verified made it through clean!')
+  // res.status(200).json(res.locals)
+  res.json('end of request')
+  console.log('end of verifyUser')
 })
 
 module.exports = localRouter

@@ -7,19 +7,20 @@ const userController = {};
 
 userController.createUser = async (req, res, next) => {
   const { email, password } = req.body;
-
+// can run asynchronously because I don't need this data back for anything
     const savedUser = await bcrypt.genSalt(saltRounds, function(err, salt){
       bcrypt.hash(password, salt, function(err, hash){
+        console.log('inside bcrypt.hash')
         if (err) console.error('There was an error saving the user in the database. Check your hash function.');
         else {
           const newUser = new User({
             email,
             password: hash,
             startDate: Date.now()
-          })
+          });
           newUser.save()
           .then(result=>{
-            console.log('result', result)
+            // console.log('result inside newUser.save() : ', result)
             return result
           })
           .catch(err=>console.log(err))
@@ -27,7 +28,6 @@ userController.createUser = async (req, res, next) => {
         }
       });
     });
-    res.locals.user = savedUser
 
   next();
 
@@ -36,28 +36,24 @@ userController.createUser = async (req, res, next) => {
 userController.verifyUser = async (req, res, next) => {
 
   const { email, password } = req.body;
-  console.log('req.body: ', req.body)
 
-    const result = await User.findOne({'email': email}, function(err, response){
-      if (err){
-       console.error(err);
-      }
-      else {
-        bcrypt.compare(password, response.password, function(err, result){
-          if (err){
-            return res.status(400).json('Invalid email or password.');
-          }
-          else {
-            console.log(result);
-            console.log('result.password', res.password)
-            console.log('about to hit next, inside the else block')
-            // return next()
-            // send user over to the authentication/cookie/session middleware to get their session
-          }
-        });
-      }
+    const result = await User.findOne({'email': email}, function(err, docs){
+        if (err) console.error(err);
     });
-  next()
+    const hashedPassword = result.password;
+
+    const verifiedResult = await bcrypt.compare(password, hashedPassword)
+    .then(result=>{
+      console.log('result', result);
+      if (result) return true;
+    })
+    .catch(err=>{
+      console.error(err);
+      res.status(400).json('Invalid email or password')
+    });
+    
+    res.locals.verifiedResult = verifiedResult;
+    next()
 
 }
 

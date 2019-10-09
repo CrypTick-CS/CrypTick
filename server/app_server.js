@@ -8,6 +8,6 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static(path.join(__dirname, '../assets')));
 
-app.post('/', localRouter)
+app.use('/', localRouter)
 
 module.exports = app;

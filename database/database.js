@@ -17,3 +17,7 @@ mongoose.connect(dbConnection, {
 mongoose.connection.on('error', ()=>{
   console.error(error)
 });
+
+mongoose.connection.on('close', ()=>{
+  console.log('the connection has been closed')
+})

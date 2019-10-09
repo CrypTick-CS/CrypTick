@@ -35,7 +35,6 @@ class CurrencyChart extends React.Component {
     fetch(`https://min-api.cryptocompare.com/data/v2/histominute?fsym=BTC&tsym=USD&limit=30&toTs=${Date.now()}&api_key=${config.key}`)
     .then(res => res.json())
     .then(res => {
-      console.log(res['Data']['Data'])
       let high = 0;
       let low = 100000;
       const data = res['Data']['Data'].slice(-30).map(element => {
@@ -43,7 +42,6 @@ class CurrencyChart extends React.Component {
         if (element.close < low) low = element.close
         return {x: Number(element.time.toString() + '000'), y: element.close}
       })
-      console.log(data);
       this.setState({
       data,
         yDomain: [low - 20, high + 20],
@@ -53,13 +51,11 @@ class CurrencyChart extends React.Component {
     const intervalID = setInterval(() => {
       fetch(`https://min-api.cryptocompare.com/data/pricemulti?fsyms=BTC&tsyms=USD&api_key=${config.key}`).then(res => res.json())
       .then(res => {
-        const low = this.state.data.reduce((acc, cur) => acc > cur.y ? y : acc)
-        const high = this.state.data.reduce((acc, cur) => acc < cur.y ? y : acc)
         this.setState({
           data: this.state.data.concat({x: Date.now(), y: res['BTC']['USD']}),
           currentValue: res['BTC']['USD']
         })
-      }, console.log(this.state.data))
+      })
       }, 1000);
 
     this.setState({intervalID});
@@ -88,7 +84,7 @@ class CurrencyChart extends React.Component {
           <LineSeries 
             style={{
               strokeLinejoin: 'round',
-              strokeWidth: 4
+              strokeWidth: 2
             }} 
             animation 
             data={this.state.data} 

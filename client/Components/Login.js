@@ -49,8 +49,8 @@ const Login = (props) => {
         <Input type="text" placeholder="Enter Password" className="password" onChange={e => setPassword(e.target.value)}/>
       </div>
       <Buttons>
-        <Button className="login-btn" onClick={props.authenticate}>Login</Button>
-        <Button className="signup-btn">Signup</Button>
+        <Button className="login-btn" onClick={() => props.authenticate({email, password})}>Login</Button>
+        <Button className="signup-btn" onClick={() => props.signup({email, password})}>Signup</Button>
       </Buttons>
     </div>
   )

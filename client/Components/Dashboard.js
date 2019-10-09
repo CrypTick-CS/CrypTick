@@ -9,7 +9,6 @@ function Dashboard(props) {
 
   return (
     <div className="dashboard">
-      DASHBOARD
       <Holdings balances={balances} />
       <CurrencyChart />
       <Buttons />

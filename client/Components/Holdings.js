@@ -10,7 +10,7 @@ const HoldingsTitle = styled.div`
 `;
 
 const HoldingsContainer = styled.div`
-
+  color: white;
 `;
 
 const HoldingsBalance = styled.div`
@@ -26,11 +26,11 @@ const Holdings = (props) => {
     <HoldingsDiv>
       <HoldingsTitle>Holdings</HoldingsTitle>
       <HoldingsContainer>
-        <HoldingsBalance className="holdings-usd-balance">{props.balances.USD}</HoldingsBalance>
+        <HoldingsBalance className="holdings-usd-balance">{props.dollarBalance}</HoldingsBalance>
         <HoldingsLabel>Current Balance USD</HoldingsLabel>
       </HoldingsContainer>
       <HoldingsContainer>
-        <HoldingsBalance className="holdings-btc-balance">{props.balances.BTC}</HoldingsBalance>
+        <HoldingsBalance className="holdings-btc-balance">{props.bitcoinBalance}</HoldingsBalance>
         <HoldingsLabel>Invested Balance BTC in USD</HoldingsLabel>
       </HoldingsContainer>
     </HoldingsDiv>

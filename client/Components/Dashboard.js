@@ -5,11 +5,9 @@ import Buttons from './Buttons';
 
 
 function Dashboard(props) {
-  const [balances, setBalances] = useState({USD: 0, BTC: 0})
-
   return (
     <div className="dashboard">
-      <Holdings balances={balances} />
+      <Holdings dollarBalance={props.dollarBalance} bitcoinBalance={props.bitcoinBalance} />
       <CurrencyChart />
       <Buttons />
     </div>

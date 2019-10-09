@@ -13,17 +13,24 @@ class CurrencyChart extends React.Component {
     super();
     this.state = {
       data: [],
+      intervalID: null
     }
   }
 
   componentDidMount() {
-    setInterval(() => {
+    const intervalID = setInterval(() => {
       fetch(`https://min-api.cryptocompare.com/data/pricemulti?fsyms=BTC&tsyms=USD&api_key=${config.key}`).then(res => res.json())
       .then(res => {
         this.setState({
           data: this.state.data.concat({x: Date.now(), y: res['BTC']['USD']}).slice(-30)})
       })
       }, 4000);
+
+    this.setState({intervalID});
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.state.intervalID);
   }
 
   render() {

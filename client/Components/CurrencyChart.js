@@ -16,6 +16,10 @@ const CurrencyChartDiv = styled.div`
     border-radius: 10px;
 `;
 
+const CurrentValue = styled.div`
+
+`;
+
 class CurrencyChart extends React.Component {
   constructor() {
     super();
@@ -23,6 +27,7 @@ class CurrencyChart extends React.Component {
       data: [],
       intervalID: null,
       yDomain: null,
+      currentValue: null
     }
   }
 
@@ -41,18 +46,18 @@ class CurrencyChart extends React.Component {
       console.log(data);
       this.setState({
       data,
-        yDomain: [low - 20, high + 20]
+        yDomain: [low - 20, high + 20],
+        currentValue: data.slice(-1)[0].y
     })
     });
     const intervalID = setInterval(() => {
       fetch(`https://min-api.cryptocompare.com/data/pricemulti?fsyms=BTC&tsyms=USD&api_key=${config.key}`).then(res => res.json())
       .then(res => {
         const low = this.state.data.reduce((acc, cur) => acc > cur.y ? y : acc)
-        console.log(low);
         const high = this.state.data.reduce((acc, cur) => acc < cur.y ? y : acc)
-        console.log(high);
         this.setState({
-          data: this.state.data.concat({x: Date.now(), y: res['BTC']['USD']})
+          data: this.state.data.concat({x: Date.now(), y: res['BTC']['USD']}),
+          currentValue: res['BTC']['USD']
         })
       }, console.log(this.state.data))
       }, 1000);
@@ -67,10 +72,18 @@ class CurrencyChart extends React.Component {
   render() {
     return (
       <CurrencyChartDiv>
+        <CurrentValue>
+          <div style={{textAlign: "center", fontFamily: "Audiowide", fontSize: "40px", color: "white"}}>
+            {this.state.currentValue}
+          </div>
+          <div style={{textAlign: "center", fontFamily: 'Audiowide', color: "white"}}>
+          Current BTC Value in USD 
+          </div>
+        </CurrentValue>
         <XYPlot height={600} width={600} yDomain={this.state.yDomain}>
           <VerticalGridLines />
           <HorizontalGridLines />
-          <XAxis />
+          <XAxis tickFormat={v => new Date(v).toTimeString().slice(0, 8)} />
           <YAxis />
           <LineSeries 
             style={{

@@ -17,7 +17,14 @@ userController.createUser = async (req, res, next) => {
       const newUser = new User({
         email,
         password: hashedPassword,
-        startDate: Date.now()
+        startDate: Date.now(),
+        history: [{
+          time: Date.now(),
+          cryptoType: req.body.cryptoType ? req.body.cryptoType : "BITCOIN",
+          transactionType: "accountCreation",
+          dollarBalance: 100000.00,
+          bitcoinBalance: 0
+        }]
       })
 
       newUser.save();
@@ -58,7 +65,7 @@ userController.verifyUser = async (req, res, next) => {
 userController.getUser = (req, res, next) => {
 }
 
-userController.addTransaction = (req, res, next) => {
+userController.addTransaction = async (req, res, next) => {
   // User buys or sells crypto
   // needs to add a new item to history, including TIME, and recalculated
   // portfolio data (dollarBalance, bitcoinBalance)
@@ -74,20 +81,24 @@ userController.addTransaction = (req, res, next) => {
       //     cryptoVal: 8675.309,
       //   }
       // }
-    const user = User.find({ email: req.body.email });
+      const user = await User.findOne({ email: req.body.email });
+      console.log("user", user);
     const newHistoryItem = {
       time: Date.now(),
       cryptoType: req.body.cryptoType,
-      transactionType: req.body.transactionType,
-      cryptoQty: req.body.cryptoQty,
-      cryptoVal : req.body.cryptoVal,
+      transactionType: req.body.transactionDetails.transactionType,
+      cryptoQty: req.body.transactionDetails.cryptoQty,
+      cryptoVal : req.body.transactionDetails.cryptoVal,
     };
-    const oldDollarBalance = user.history.last.dollarBalance;
-    const newDollarBalance = oldDollarBalance - (req.body.cryptoQty * req.body.cryptoVal);
-    const oldBitcoinBalance = user.history.last.bitcoinBalance;
+    console.log("req.body", req.body);
+
+    const oldDollarBalance = user.history[user.history.length - 1].dollarBalance;
+    const newDollarBalance = oldDollarBalance - (req.body.transactionDetails.cryptoQty * req.body.transactionDetails.cryptoVal);
+    const oldBitcoinBalance = user.history[user.history.length - 1].bitcoinBalance;
+    console.log("newDollarBalance", newDollarBalance);
     let newBitcoinBalance;
-    if (req.body.cryptoType === "BITCOIN") {
-      newBitcoinBalance = oldBitcoinBalance + req.body.cryptoQty;
+    if (req.body.transactionDetails.cryptoType === "BITCOIN") {
+      newBitcoinBalance = oldBitcoinBalance + req.body.transactionDetails.cryptoQty;
     } else {
       newBitcoinBalance = oldBitcoinBalance;
     }
@@ -97,7 +108,9 @@ userController.addTransaction = (req, res, next) => {
 
     user.history.push(newHistoryItem);
     user.save((err)=>{
-      if (err) {res.status(400).send(err)} else {
+      if (err) {
+        console.error(err);
+        res.status(400).send(err)} else {
         res.locals.newBalances = {bitcoinBalance: newBitcoinBalance, dollarBalance: newDollarBalance}
         next();
       }

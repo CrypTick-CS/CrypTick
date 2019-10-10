@@ -19,7 +19,7 @@ authController.verifySession = (req, res, next) => {
 
 authController.createSession = (req, res, next) => {
     req.session = session({
-      genid: (req)=>{
+      genid: (req) => {
         return genuuid()
       },
       secret: process.env.SESSION_SECRET,

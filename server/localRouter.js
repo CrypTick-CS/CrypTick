@@ -23,6 +23,14 @@ localRouter.post('/test', (req, res, next)=>{
   res.status(200).json('request complete');
 })
 
+
+// localRouter.get('/transaction', userController.verifyUser, userController.addTransaction, (req, res, next)=>{
+  localRouter.post('/transaction', userController.addTransaction, (req, res, next)=>{
+    console.log("res.locals", res.locals);
+    res.status(200).json(res.locals.newBalances);
+});
+
+
 // the verifySession would only occur on other requests. If they're logging in or signing up, they won't have a session yet.
 
 module.exports = localRouter

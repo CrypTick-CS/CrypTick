@@ -53,17 +53,25 @@ const ErrorMessage = styled.div`
 const Login = (props) => {
   let [email, setEmail] = useState('');
   let [password, setPassword] = useState('');
-  let [verifyError, setVerifyError] = useState(false);
+  let [verifyError, setVerifyError] = useState('');
+
+  const emailIsValid = (email) => {
+    return /\S+@\S+\.\S+/.test(email)
+  }
 
   const verifyEntry = (email, password, method) => {
     if (email && password) {
-      if (method === 'login') {
-        props.authenticate({email, password})
-      } else if (method === 'signup') {
-        props.signup({email, password})
+      if (emailIsValid(email)) {
+        if (method === 'login') {
+          props.authenticate({email, password})
+        } else if (method === 'signup') {
+          props.signup({email, password})
+        }
+      } else {
+        setVerifyError('Please provide a valid email address')
       }
     } else {
-      setVerifyError(true);
+      setVerifyError('Please provide both an email and password');
     }
   }
 
@@ -72,7 +80,7 @@ const Login = (props) => {
       <Title>CrypTick</Title>
       <div className="fields">
         <Input type="text" placeholder="Enter Email" className="email" onChange={e => setEmail(e.target.value)}/>
-        <Input type="text" placeholder="Enter Password" className="password" onChange={e => setPassword(e.target.value)}/>
+        <Input type="password" placeholder="Enter Password" className="password" onChange={e => setPassword(e.target.value)}/>
       </div>
       {props.isError && !verifyError && 
       <ErrorMessage>
@@ -80,7 +88,7 @@ const Login = (props) => {
       </ErrorMessage>}
       {verifyError && 
       <ErrorMessage>
-        Please provide both an email and password
+        {verifyError}
       </ErrorMessage>}
       <Buttons>
         <Button className="login-btn" onClick={() => verifyEntry(email, password, 'login')}>Login</Button>

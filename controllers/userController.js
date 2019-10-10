@@ -9,16 +9,23 @@ userController.createUser = async (req, res, next) => {
   const { email, password } = req.body;
 
   try {
-    const hashedPassword = await bcrypt.hash(password, saltRounds)
-    const newUser = new User({
-      email,
-      password: hashedPassword,
-      startDate: Date.now()
-    })
 
-    newUser.save();
+    const userSearch = await User.findOne({'email': email});
+    console.log('userSearch', userSearch);
+    if (userSearch) return res.status(400).json('An account with this e-mail already exists. Please check your password.');
+    else {
+      const hashedPassword = await bcrypt.hash(password, saltRounds)
+      const newUser = new User({
+        email,
+        password: hashedPassword,
+        startDate: Date.now()
+      })
+  
+      newUser.save();
+  
+       next();
+    }
 
-     next();
   }
   catch(err){
     console.error(err)
@@ -32,8 +39,13 @@ userController.verifyUser = async (req, res, next) => {
   const { email, password } = req.body;
   try {
     const result = await User.findOne({'email': email});
-    const hashedPassword = result.password;
-    const verifiedResult = await bcrypt.compare(password, hashedPassword)
+    let verifiedResult = false;
+    if (result){
+      const hashedPassword = result.password;
+      console.log('hashedPassword in if block: ', hashedPassword);
+       verifiedResult = await bcrypt.compare(password, hashedPassword);
+       console.log('verifiedResult inside if block: ', verifiedResult);
+    }
 
     if (!verifiedResult) return res.status(400).json('Invalid email or password.');
 

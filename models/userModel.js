@@ -17,6 +17,7 @@ const userSchema = new mongoose.Schema({
   history: {
     type: [historyItemSchema],
   },
+  // add dollar balance and bitcoin balance
 });
 
 const User = mongoose.model('user', userSchema);

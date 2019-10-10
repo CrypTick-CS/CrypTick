@@ -21,6 +21,7 @@ class App extends React.Component {
       dollarBalance: 0,
       bitcoinBalance: 0,
       isError: false,
+      email: null
     };
   }
 
@@ -40,14 +41,45 @@ class App extends React.Component {
         this.setState({ isError: true })
         throw new Error('Invalid username or password');
       };
+      return res;
     })
     .then(res => res.json())
     .then(res => {
-      console.log(res.body);
+      console.log(res);
+      console.log(sessionStorage.getItem('_CrypTick'));
       this.setState({
-        isAuthenticated: true
+        isAuthenticated: true,
+        email: res.email
       });
       this.props.history.push('/');
+      
+      fetch('/transaction', {
+        method: 'POST',
+        headers: {
+          "content-type": "application/json"
+        },
+        body: JSON.stringify({
+          email: res.email,
+          transactionDetails: {
+            transactionType: 'BUY',
+            cryptoQty: 0,
+            cryptoVal: 8500,
+            cryptoType: 'BITCOIN'
+          }
+        })
+      })
+      .then(res => res.json())
+      .then(res => {
+        console.log('this res',res);
+        this.setState({
+          dollarBalance: res.dollarBalance,
+          bitcoinBalance: res.bitcoinBalance
+        })
+      })
+      .catch(err => {
+        console.error(err);
+      })
+
     })
     .catch(err => {
       console.error(err);
@@ -73,18 +105,66 @@ class App extends React.Component {
         bitcoinBalance: res.bitcoinBalance
       });
       this.props.history.push('/');
+
     })
     .catch(err => console.error(err))
   }
 
   buyBTC(portion, currentBTCValue) {
-    console.log(portion);
-    console.log(currentBTCValue);
+    fetch('/transaction', {
+      method: 'POST',
+      headers: {
+        "content-type": "application/json"
+      },
+      body: JSON.stringify({
+        email: this.state.email,
+        transactionDetails: {
+          transactionType: 'BUY',
+          cryptoQty: portion,
+          cryptoVal: currentBTCValue,
+          cryptoType: 'BITCOIN'
+        }
+      })
+    })
+    .then(res => res.json())
+    .then(res => {
+      this.setState({
+        dollarBalance: res.dollarBalance,
+        bitcoinBalance: res.bitcoinBalance
+      })
+    })
+    .catch(err => {
+      console.error(err);
+    })
   }
 
   sellBTC(portion, currentBTCValue) {
-    console.log(portion);
-    console.log(currentBTCValue);
+    fetch('/transaction', {
+      method: 'POST',
+      headers: {
+        "content-type": "application/json"
+      },
+      body: JSON.stringify({
+        email: this.state.email,
+        transactionDetails: {
+          transactionType: 'SELL',
+          cryptoQty: portion,
+          cryptoVal: currentBTCValue,
+          cryptoType: 'BITCOIN'
+        }
+      })
+    })
+    .then(res => res.json())
+    .then(res => {
+      console.log('sell res',res)
+      this.setState({
+        dollarBalance: res.dollarBalance,
+        bitcoinBalance: res.bitcoinBalance
+      })
+    })
+    .catch(err => {
+      console.error(err);
+    })
   }
 
   setIsError() {

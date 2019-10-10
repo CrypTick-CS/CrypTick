@@ -31,15 +31,15 @@ const Holdings = (props) => {
   return (
     <HoldingsDiv>
       <HoldingsContainer>
-        <HoldingsBalance className="holdings-usd-balance">{props.dollarBalance}</HoldingsBalance>
+        <HoldingsBalance className="holdings-usd-balance">{props.dollarBalance ? Math.abs(parseFloat(props.dollarBalance.toFixed(2))).toLocaleString() : 0}</HoldingsBalance>
         <HoldingsLabel>Current Balance USD</HoldingsLabel>
       </HoldingsContainer>
       <HoldingsContainer>
-        <HoldingsBalance className="holdings-btc-balance">{props.bitcoinBalance}</HoldingsBalance>
+        <HoldingsBalance className="holdings-btc-balance">{props.bitcoinBalance ? Math.abs(parseFloat((props.bitcoinBalance * props.currentBTCValue).toFixed(2))).toLocaleString() : 0}</HoldingsBalance>
         <HoldingsLabel>Invested Balance USD</HoldingsLabel>
       </HoldingsContainer>
       <HoldingsContainer>
-        <HoldingsBalance className="holdings-btc-balance">0</HoldingsBalance>
+        <HoldingsBalance className="holdings-btc-balance">{props.bitcoinBalance ? props.bitcoinBalance.toFixed(2) : 0}</HoldingsBalance>
         <HoldingsLabel>Total BTC Value</HoldingsLabel>
       </HoldingsContainer>
     </HoldingsDiv>

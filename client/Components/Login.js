@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { verify } from 'crypto';
 
 const Input = styled.input`
   color: white;

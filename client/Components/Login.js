@@ -74,7 +74,7 @@ const Login = (props) => {
         <Input type="text" placeholder="Enter Email" className="email" onChange={e => setEmail(e.target.value)}/>
         <Input type="text" placeholder="Enter Password" className="password" onChange={e => setPassword(e.target.value)}/>
       </div>
-      {props.isError && 
+      {props.isError && !verifyError && 
       <ErrorMessage>
         Incorrect email and/or password.
       </ErrorMessage>}

@@ -26,6 +26,7 @@ class App extends React.Component {
 
   authenticate(userData) {
     console.log(userData);
+    this.setState({isError: false})
     fetch('/login', {
       method: 'POST',
       body: JSON.stringify(userData),
@@ -42,7 +43,7 @@ class App extends React.Component {
     })
     .then(res => res.json())
     .then(res => {
-      console.log(res);
+      console.log(res.body);
       this.setState({
         isAuthenticated: true,
         dollarBalance: res.dollarBalance,
@@ -57,6 +58,7 @@ class App extends React.Component {
 
   signup(userData) {
     console.log(userData);
+    this.setState({isError: false})
     fetch('/signup', {
       method: 'POST',
       body: JSON.stringify(userData),
@@ -66,7 +68,7 @@ class App extends React.Component {
     })
     .then(res => res.json())
     .then(res => {
-      console.log(res);
+      console.log(res.body);
       this.setState({
         isAuthenticated: true,
         dollarBalance: res.dollarBalance,

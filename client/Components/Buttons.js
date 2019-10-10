@@ -40,6 +40,12 @@ const Buttons = (props) => {
         <ButtonDiv className="buy" style={{background: 'green'}} onClick={() => props.buyBTC(buyBTCValue, props.currentBTCValue)}>BUY</ButtonDiv>
         <QuantityInput type="number" min="0.1" max="25" step="0.1" value={buyBTCValue} onChange={(e) => changeBuyBTCValue(e.target.value)} ></QuantityInput>
       </div>
+      <button onClick={()=>{props.changeTimeRange(5)}} >5 min</button>
+      <button onClick={()=>{props.changeTimeRange(15)}} >15 min</button>
+      <button onClick={()=>{props.changeTimeRange(30)}} >30 min</button>
+      <button onClick={()=>{props.changeTimeRange(60)}} >60 min</button>
+      <button onClick={()=>{props.changeTimeRange(90)}} >90 min</button>
+      <button onClick={()=>{props.changeTimeRange(120)}} >120 min</button>
       <div>
         <ButtonDiv className="sell" style={{background: 'red'}} onClick={() => props.sellBTC(sellBTCValue, props.currentBTCValue)}>SELL</ButtonDiv>
         <QuantityInput type="number" min="0.1" max="25" step="0.1" value={sellBTCValue} onChange={(e) => changeSellBTCValue(e.target.value)} ></QuantityInput>

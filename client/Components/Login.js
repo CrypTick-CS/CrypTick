@@ -42,6 +42,13 @@ const LoginDiv = styled.div`
     border-radius: 10px;
 `;
 
+const LoginDivContainer = styled.div`
+    display: flex;
+    justify-content: center;
+    height: 100vh;
+    align-items: center;
+`
+
 const ErrorMessage = styled.div`
   text-align: center;
   color: red;
@@ -76,25 +83,27 @@ const Login = (props) => {
   }
 
   return (
-    <LoginDiv>
-      <Title>CrypTick</Title>
-      <div className="fields">
-        <Input type="text" placeholder="Enter Email" className="email" onChange={e => setEmail(e.target.value)}/>
-        <Input type="password" placeholder="Enter Password" className="password" onChange={e => setPassword(e.target.value)}/>
-      </div>
-      {props.isError && !verifyError &&
-      <ErrorMessage>
-        Incorrect email and/or password.
-      </ErrorMessage>}
-      {verifyError && 
-      <ErrorMessage>
-        {verifyError}
-      </ErrorMessage>}
-      <Buttons>
-        <Button className="login-btn" onClick={() => verifyEntry(email, password, 'login')}>Login</Button>
-        <Button className="signup-btn" onClick={() => verifyEntry(email, password, 'signup')}>Signup</Button>
-      </Buttons>
-    </LoginDiv>
+    <LoginDivContainer>
+      <LoginDiv>
+        <Title>CrypTick</Title>
+        <div className="fields">
+          <Input type="text" placeholder="Enter Email" className="email" onChange={e => setEmail(e.target.value)}/>
+          <Input type="password" placeholder="Enter Password" className="password" onChange={e => setPassword(e.target.value)}/>
+        </div>
+        {props.isError && !verifyError &&
+        <ErrorMessage>
+          Incorrect email and/or password.
+        </ErrorMessage>}
+        {verifyError &&
+        <ErrorMessage>
+          {verifyError}
+        </ErrorMessage>}
+        <Buttons>
+          <Button className="login-btn" onClick={() => verifyEntry(email, password, 'login')}>Login</Button>
+          <Button className="signup-btn" onClick={() => verifyEntry(email, password, 'signup')}>Signup</Button>
+        </Buttons>
+      </LoginDiv>
+    </LoginDivContainer>
   )
 }
 

@@ -44,6 +44,31 @@ const Buttons = (props) => {
         <ButtonDiv className="sell" style={{background: 'red'}} onClick={() => props.sellBTC(sellBTCValue, props.currentBTCValue)}>SELL</ButtonDiv>
         <QuantityInput type="number" min="0.1" max="25" step="0.1" value={sellBTCValue} onChange={(e) => changeSellBTCValue(e.target.value)} ></QuantityInput>
       </div>
+{/* // TODO: GET RID OF THESE HARDCODED VALUES, AND PUT SOMETHING REAL THUR
+// email: sessionStorage.getItem('_CrypTick'), */}
+{/* const sendTransaction = async (transType, cryptoType="BITCOIN") => {
+  const result = await fetch('/transaction',{
+    method: 'POST',
+    headers: {"content-type":"application/json"},
+    body: JSON.stringify({
+      email: sessionStorage.getItem('_CrypTick'),
+      transactionDetails: {
+          cryptoType: cryptoType,
+          transactionType: transType,
+          cryptoQty: 1,
+          cryptoVal: 5000.00,
+        }
+    })
+  });
+  const retval = await result.json();
+  return retval;
+}
+
+const Buttons = () => {
+  return (
+    <ButtonsDiv>
+      <Button className="buy" onClick={()=>{sendTransaction("BUY")}}>BUY</Button>
+      <Button className="sell" onClick={()=>{sendTransaction("SELL")}}>SELL</Button> */}
     </ButtonsDiv>
   )
 }

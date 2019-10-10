@@ -45,9 +45,7 @@ class App extends React.Component {
     .then(res => {
       console.log(res.body);
       this.setState({
-        isAuthenticated: true,
-        dollarBalance: res.dollarBalance,
-        bitcoinBalance: res.bitcoinBalance
+        isAuthenticated: true
       });
       this.props.history.push('/');
     })

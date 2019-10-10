@@ -90,8 +90,6 @@ describe('Create a User in the Database', function(){
             bcrypt.compare(password, res.password, function(err, response){
               if (err) done(err);
               else {
-                console.log(response);
-                console.log('res.password', res.password)
                 done()
               }
             });

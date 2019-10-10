@@ -24,25 +24,34 @@ class App extends React.Component {
   }
 
   authenticate(userData) {
-    console.log(userData);
-    fetch('/login', {
-      method: 'POST',
-      body: JSON.stringify(userData),
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    })
-    .then(res => res.json())
-    .then(res => {
-      console.log(res);
+    // a way to set and check session storage...?
+    if (sessionStorage.getItem('_CrypTick')){
       this.setState({
-        isAuthenticated: true,
-        dollarBalance: res.dollarBalance,
-        bitcoinBalance: res.bitcoinBalance
+        isAuthenticated: true
       });
-      this.props.history.push('/');
-    })
-    .catch(err => console.error(err))
+    }
+    else {
+      console.log(userData);
+      fetch('/login', {
+        method: 'POST',
+        body: JSON.stringify(userData),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+      .then(res => res.json())
+      .then(res => {
+        console.log('res', res)
+        sessionStorage.setItem('_CrypTick', res.email)
+        this.setState({
+          isAuthenticated: true,
+          dollarBalance: res.dollarBalance,
+          bitcoinBalance: res.bitcoinBalance
+        });
+        this.props.history.push('/');
+      })
+      .catch(err => console.error(err))
+    }
   }
 
   signup(userData) {

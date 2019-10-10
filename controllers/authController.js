@@ -1,7 +1,7 @@
 const session = require('express-session');
 const dotenv = require('dotenv');
 const path = require('path');
-const uuidv4 = require('uuid/v4')
+// const uuidv4 = require('uuid/v4')
 
 dotenv.config({
   path: path.join(__dirname, '../.env')
@@ -19,6 +19,9 @@ authController.verifySession = (req, res, next) => {
 
 authController.createSession = (req, res, next) => {
     req.session = session({
+      genid: (req)=>{
+        return genuuid()
+      },
       secret: process.env.SESSION_SECRET,
       cookie: {
         httpOnly: true
@@ -26,8 +29,6 @@ authController.createSession = (req, res, next) => {
       resave: false,
       saveUninitialized: false,
   });
-
-  req.session.id = uuidv4();
 
   next();
 }

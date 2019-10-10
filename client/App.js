@@ -89,13 +89,18 @@ class App extends React.Component {
     console.log(currentBTCValue);
   }
 
+  setIsError() {
+    this.setState({isError: false});
+  }
+
   render() {
     return (
         <Main>
           <Route exact path="/login" 
           component={() => <Login authenticate={this.authenticate.bind(this)} 
             signup={this.signup.bind(this)} 
-            isError={this.state.isError} />} />
+            isError={this.state.isError}
+            setIsError={this.setIsError.bind(this)} />} />
           <PrivateRoute exact path="/" 
           authenticated={this.state.isAuthenticated} 
           component={() => <Dashboard dollarBalance={this.state.dollarBalance} 

@@ -60,6 +60,7 @@ const Login = (props) => {
   }
 
   const verifyEntry = (email, password, method) => {
+    setVerifyError('');
     if (email && password) {
       if (emailIsValid(email)) {
         if (method === 'login') {
@@ -82,7 +83,7 @@ const Login = (props) => {
         <Input type="text" placeholder="Enter Email" className="email" onChange={e => setEmail(e.target.value)}/>
         <Input type="password" placeholder="Enter Password" className="password" onChange={e => setPassword(e.target.value)}/>
       </div>
-      {props.isError && !verifyError && 
+      {props.isError && !verifyError &&
       <ErrorMessage>
         Incorrect email and/or password.
       </ErrorMessage>}

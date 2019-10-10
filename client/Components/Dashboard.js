@@ -8,7 +8,7 @@ function Dashboard(props) {
 
   return (
     <div className="dashboard">
-      <Holdings dollarBalance={props.dollarBalance} bitcoinBalance={props.bitcoinBalance} />
+      <Holdings dollarBalance={props.dollarBalance} bitcoinBalance={props.bitcoinBalance} currentBTCValue={currentBTCValue} />
       <CurrencyChart setCurrentBTCValue={setCurrentBTCValue} />
       <Buttons buyBTC={props.buyBTC}
       sellBTC={props.sellBTC}

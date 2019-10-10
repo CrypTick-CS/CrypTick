@@ -74,7 +74,7 @@ userController.addTransaction = async (req, res, next) => {
   // body: {
     //   email: "potato@cannon.gov",
     //   transactionDetails: {
-      //     cryptoTrpe: "BITCOIN",
+      //     cryptoType: "BITCOIN",
       //     transactionType: "BUY",
       //     cryptoQty: 0.01,
       //     cryptoVal: 8675.309,
@@ -91,13 +91,17 @@ userController.addTransaction = async (req, res, next) => {
     };
     console.log("req.body", req.body);
 
-    const oldDollarBalance = user.history[user.history.length - 1].dollarBalance;
-    const newDollarBalance = oldDollarBalance - (req.body.transactionDetails.cryptoQty * req.body.transactionDetails.cryptoVal);
-    const oldBitcoinBalance = user.history[user.history.length - 1].bitcoinBalance;
+    const oldDollarBalance = parseFloat(user.history[user.history.length - 1].dollarBalance);
+    const newDollarBalance = oldDollarBalance - (parseFloat(req.body.transactionDetails.cryptoQty) * parseFloat(req.body.transactionDetails.cryptoVal));
+    const oldBitcoinBalance = parseFloat(user.history[user.history.length - 1].bitcoinBalance);
     console.log("newDollarBalance", newDollarBalance);
     let newBitcoinBalance;
     if (req.body.transactionDetails.cryptoType === "BITCOIN") {
-      newBitcoinBalance = oldBitcoinBalance + req.body.transactionDetails.cryptoQty;
+      if (req.body.transactionDetails.transactionType === "BUY"){
+        newBitcoinBalance = oldBitcoinBalance + parseFloat(req.body.transactionDetails.cryptoQty);
+      } else {
+        newBitcoinBalance = oldBitcoinBalance - parseFloat(req.body.transactionDetails.cryptoQty);
+      }
     } else {
       newBitcoinBalance = oldBitcoinBalance;
     }
@@ -110,6 +114,7 @@ userController.addTransaction = async (req, res, next) => {
       if (err) {
         console.error(err);
         res.status(400).send(err)} else {
+          console.log(newBitcoinBalance);
         res.locals.newBalances = {bitcoinBalance: newBitcoinBalance, dollarBalance: newDollarBalance}
         next();
       }

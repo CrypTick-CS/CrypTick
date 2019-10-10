@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
+
 
 const ButtonDiv = styled.button`
   border: none;
@@ -29,16 +30,19 @@ const QuantityInput = styled.input`
 `;
 
 
-const Buttons = () => {
+const Buttons = (props) => {
+  const [buyBTCValue, changeBuyBTCValue] = useState(0.5)
+  const [sellBTCValue, changeSellBTCValue] = useState(0.5)
+
   return (
     <ButtonsDiv>
       <div>
-        <ButtonDiv className="buy" style={{background: 'green'}}>BUY</ButtonDiv>
-        <QuantityInput type="number" min="0.1" max="25" step="0.1" defaultValue="0.5" ></QuantityInput>
+        <ButtonDiv className="buy" style={{background: 'green'}} onClick={() => props.buyBTC(buyBTCValue, props.currentBTCValue)}>BUY</ButtonDiv>
+        <QuantityInput type="number" min="0.1" max="25" step="0.1" value={buyBTCValue} onChange={(e) => changeBuyBTCValue(e.target.value)} ></QuantityInput>
       </div>
       <div>
-        <ButtonDiv className="sell" style={{background: 'red'}}>SELL</ButtonDiv>
-        <QuantityInput type="number" min="0.1" max="25" step="0.1" defaultValue="0.5" ></QuantityInput>
+        <ButtonDiv className="sell" style={{background: 'red'}} onClick={() => props.sellBTC(sellBTCValue, props.currentBTCValue)}>SELL</ButtonDiv>
+        <QuantityInput type="number" min="0.1" max="25" step="0.1" value={sellBTCValue} onChange={(e) => changeSellBTCValue(e.target.value)} ></QuantityInput>
       </div>
     </ButtonsDiv>
   )

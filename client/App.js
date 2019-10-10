@@ -20,7 +20,7 @@ class App extends React.Component {
       isAuthenticated: false,
       dollarBalance: 0,
       bitcoinBalance: 0,
-      isError: false
+      isError: false,
     };
   }
 
@@ -77,11 +77,29 @@ class App extends React.Component {
     .catch(err => console.error(err))
   }
 
+  buyBTC(portion, currentBTCValue) {
+    console.log(portion);
+    console.log(currentBTCValue);
+  }
+
+  sellBTC(portion, currentBTCValue) {
+    console.log(portion);
+    console.log(currentBTCValue);
+  }
+
   render() {
     return (
         <Main>
-          <Route exact path="/login" component={() => <Login authenticate={this.authenticate.bind(this)} signup={this.signup.bind(this)} isError={this.state.isError} />} />
-          <PrivateRoute exact path="/" authenticated={this.state.isAuthenticated} component={() => <Dashboard dollarBalance={this.state.dollarBalance} bitcoinBalance={this.state.bitcoinBalance} />} />
+          <Route exact path="/login" 
+          component={() => <Login authenticate={this.authenticate.bind(this)} 
+            signup={this.signup.bind(this)} 
+            isError={this.state.isError} />} />
+          <PrivateRoute exact path="/" 
+          authenticated={this.state.isAuthenticated} 
+          component={() => <Dashboard dollarBalance={this.state.dollarBalance} 
+            bitcoinBalance={this.state.bitcoinBalance}
+            buyBTC={this.buyBTC.bind(this)}
+            sellBTC={this.sellBTC.bind(this)} />} />
         </Main>
     );
   }

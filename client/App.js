@@ -10,7 +10,7 @@ const Main = styled.div`
     justify-content: center;
     height: 100vh;
     align-items: center;
-    background: midnightblue;
+    background: #22252A;
 `;
 
 class App extends React.Component {

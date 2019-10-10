@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 
 const Input = styled.input`
-  color: greenyellow;
+  color: white;
   font-size: 1.35em;
-  border: 2px solid midnightblue;
+  border: 0;
   border-radius: 10px;
   display: flex;
   margin: 0 0 20px 0;
@@ -15,7 +15,7 @@ const Input = styled.input`
 
 const Button = styled.button`
   background: black;
-  color: greenyellow;
+  color: white;
   font-size: 1em;
   margin: 1em;
   padding: 0.25em 1em;
@@ -27,7 +27,7 @@ const Title = styled.div`
   font-family: 'Audiowide', cursive;
   font-size: 68px;
   margin-bottom: 40px;
-  color: greenyellow;
+  color: white;
 `;
 
 const Buttons = styled.div`
@@ -36,13 +36,19 @@ const Buttons = styled.div`
     width: 100%;
 `;
 
+const LoginDiv = styled.div`
+    background: #393E44;
+    padding: 25px;
+    border-radius: 10px;
+`;
+
 const Login = (props) => {
 
   let [email, setEmail] = useState('');
   let [password, setPassword] = useState('');
 
   return (
-    <div className="login">
+    <LoginDiv>
       <Title>CrypTick</Title>
       <div className="fields">
         <Input type="text" placeholder="Enter Email" className="email" onChange={e => setEmail(e.target.value)}/>
@@ -52,7 +58,7 @@ const Login = (props) => {
         <Button className="login-btn" onClick={() => props.authenticate({email, password})}>Login</Button>
         <Button className="signup-btn" onClick={() => props.signup({email, password})}>Signup</Button>
       </Buttons>
-    </div>
+    </LoginDiv>
   )
 }
 

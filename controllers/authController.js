@@ -11,10 +11,7 @@ dotenv.config({
 const authController = {};
 
 authController.verifySession = (req, res, next) => {
-  // if session exists, verify it against what is in the database to make sure it's still valid
-  //      if exists and is valid, next() -> move on to whatever they want to do
-  // if session does NOT exist, respond with unauthorized and redirect to signup/login
-  // 
+
   if (req.session) next()
   else return res.status(400).json()
 

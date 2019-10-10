@@ -8,15 +8,11 @@ localRouter.post('/signup', userController.createUser, authController.createSess
     dollarBalance: 100000,
     bitcoinBalance: 0
   })
-  console.log('res: ', res);
-  console.log('req.session', req.session);
 });
 
 localRouter.post('/login', userController.verifyUser, authController.createSession, (req, res, next)=>{
   // res.status(200).json(res.locals)
-  res.status(200).json('end of request')
-  console.log('req.session', req.session)
-  console.log('res.locals', res.locals)
+  res.status(200).json('Login successful.')
 })
 
 // the verifySession would only occur on other requests. If they're logging in or signing up, they won't have a session yet.

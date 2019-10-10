@@ -21,8 +21,8 @@ const CurrentValue = styled.div`
 `;
 
 class CurrencyChart extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       data: [],
       intervalID: null,
@@ -54,7 +54,7 @@ class CurrencyChart extends React.Component {
         this.setState({
           data: this.state.data.concat({x: Date.now(), y: res['BTC']['USD']}),
           currentValue: res['BTC']['USD']
-        })
+        }, () => this.props.setCurrentBTCValue(this.state.currentValue))
       })
       }, 1000);
 

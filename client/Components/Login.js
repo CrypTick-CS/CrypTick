@@ -42,21 +42,57 @@ const LoginDiv = styled.div`
     border-radius: 10px;
 `;
 
-const Login = (props) => {
+const ErrorMessage = styled.div`
+  text-align: center;
+  color: red;
+  font-family: "Arial";
+  font-size: 13px;
+`;
 
+const Login = (props) => {
   let [email, setEmail] = useState('');
   let [password, setPassword] = useState('');
+  let [verifyError, setVerifyError] = useState('');
+
+  const emailIsValid = (email) => {
+    return /\S+@\S+\.\S+/.test(email)
+  }
+
+  const verifyEntry = (email, password, method) => {
+    setVerifyError('');
+    if (email && password) {
+      if (emailIsValid(email)) {
+        if (method === 'login') {
+          props.authenticate({email, password})
+        } else if (method === 'signup') {
+          props.signup({email, password})
+        }
+      } else {
+        setVerifyError('Please provide a valid email address')
+      }
+    } else {
+      setVerifyError('Please provide both an email and password');
+    }
+  }
 
   return (
     <LoginDiv>
       <Title>CrypTick</Title>
       <div className="fields">
         <Input type="text" placeholder="Enter Email" className="email" onChange={e => setEmail(e.target.value)}/>
-        <Input type="text" placeholder="Enter Password" className="password" onChange={e => setPassword(e.target.value)}/>
+        <Input type="password" placeholder="Enter Password" className="password" onChange={e => setPassword(e.target.value)}/>
       </div>
+      {props.isError && !verifyError &&
+      <ErrorMessage>
+        Incorrect email and/or password.
+      </ErrorMessage>}
+      {verifyError && 
+      <ErrorMessage>
+        {verifyError}
+      </ErrorMessage>}
       <Buttons>
-        <Button className="login-btn" onClick={() => props.authenticate({email, password})}>Login</Button>
-        <Button className="signup-btn" onClick={() => props.signup({email, password})}>Signup</Button>
+        <Button className="login-btn" onClick={() => verifyEntry(email, password, 'login')}>Login</Button>
+        <Button className="signup-btn" onClick={() => verifyEntry(email, password, 'signup')}>Signup</Button>
       </Buttons>
     </LoginDiv>
   )

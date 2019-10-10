@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import { verify } from 'crypto';
 
 const Input = styled.input`
   color: white;
@@ -50,10 +51,22 @@ const ErrorMessage = styled.div`
 `;
 
 const Login = (props) => {
-
   let [email, setEmail] = useState('');
   let [password, setPassword] = useState('');
-  console.log('isError in login',props.isError);
+  let [verifyError, setVerifyError] = useState(false);
+
+  const verifyEntry = (email, password, method) => {
+    if (email && password) {
+      if (method === 'login') {
+        props.authenticate({email, password})
+      } else if (method === 'signup') {
+        props.signup({email, password})
+      }
+    } else {
+      setVerifyError(true);
+    }
+  }
+
   return (
     <LoginDiv>
       <Title>CrypTick</Title>
@@ -65,9 +78,13 @@ const Login = (props) => {
       <ErrorMessage>
         Incorrect email and/or password.
       </ErrorMessage>}
+      {verifyError && 
+      <ErrorMessage>
+        Please provide both an email and password
+      </ErrorMessage>}
       <Buttons>
-        <Button className="login-btn" onClick={() => props.authenticate({email, password})}>Login</Button>
-        <Button className="signup-btn" onClick={() => props.signup({email, password})}>Signup</Button>
+        <Button className="login-btn" onClick={() => verifyEntry(email, password, 'login')}>Login</Button>
+        <Button className="signup-btn" onClick={() => verifyEntry(email, password, 'signup')}>Signup</Button>
       </Buttons>
     </LoginDiv>
   )

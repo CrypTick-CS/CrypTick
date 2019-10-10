@@ -6,11 +6,12 @@ import Dashboard from './Components/Dashboard';
 import styled from 'styled-components';
 
 const Main = styled.div`
-    display: flex;
-    justify-content: center;
-    height: 100vh;
-    align-items: center;
+    /* display: flex; */
+    /* justify-content: center; */
+    /* height: 100vh; */
+    /* align-items: center; */
     background: #22252A;
+    overflow: scroll;
 `;
 
 class App extends React.Component {
@@ -21,7 +22,8 @@ class App extends React.Component {
       dollarBalance: 0,
       bitcoinBalance: 0,
       isError: false,
-      email: null
+      email: null,
+      timeRange: 30
     };
   }
 
@@ -52,7 +54,7 @@ class App extends React.Component {
         email: res.email
       });
       this.props.history.push('/');
-      
+
       fetch('/transaction', {
         method: 'POST',
         headers: {
@@ -167,6 +169,10 @@ class App extends React.Component {
     })
   }
 
+  changeTimeRange(newRange) {
+    this.setState({timeRange: newRange});
+  }
+
   setIsError() {
     this.setState({isError: false});
   }
@@ -174,17 +180,20 @@ class App extends React.Component {
   render() {
     return (
         <Main>
-          <Route exact path="/login" 
-          component={() => <Login authenticate={this.authenticate.bind(this)} 
-            signup={this.signup.bind(this)} 
+          <Route exact path="/login"
+          component={() => <Login authenticate={this.authenticate.bind(this)}
+            signup={this.signup.bind(this)}
             isError={this.state.isError}
             setIsError={this.setIsError.bind(this)} />} />
-          <PrivateRoute exact path="/" 
-          authenticated={this.state.isAuthenticated} 
-          component={() => <Dashboard dollarBalance={this.state.dollarBalance} 
+          <PrivateRoute exact path="/"
+          authenticated={this.state.isAuthenticated}
+          component={() => <Dashboard dollarBalance={this.state.dollarBalance}
             bitcoinBalance={this.state.bitcoinBalance}
             buyBTC={this.buyBTC.bind(this)}
-            sellBTC={this.sellBTC.bind(this)} />} />
+            sellBTC={this.sellBTC.bind(this)}
+            changeTimeRange={this.changeTimeRange.bind(this)}
+            timeRange={this.state.timeRange}
+            />} />
         </Main>
     );
   }

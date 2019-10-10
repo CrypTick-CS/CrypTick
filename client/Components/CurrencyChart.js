@@ -20,6 +20,9 @@ const CurrentValue = styled.div`
 
 `;
 
+const StyledXYPlot = styled(XYPlot)`
+  margin: 0 auto;
+`
 class CurrencyChart extends React.Component {
   constructor(props) {
     super(props);
@@ -32,12 +35,14 @@ class CurrencyChart extends React.Component {
   }
 
   componentDidMount() {
-    fetch(`https://min-api.cryptocompare.com/data/v2/histominute?fsym=BTC&tsym=USD&limit=30&toTs=${Date.now()}&api_key=${config.key}`)
+    fetch(`https://min-api.cryptocompare.com/data/v2/histominute?fsym=BTC&tsym=USD&limit=${this.props.timeRange ? this.props.timeRange : 30}&toTs=${Date.now()}&api_key=${config.key}`)
     .then(res => res.json())
     .then(res => {
       let high = 0;
       let low = 100000;
-      const data = res['Data']['Data'].slice(-30).map(element => {
+      let timeNum = this.props.timeRange ? this.props.timeRange : 30;
+      let timeRange = timeNum * -1;
+      const data = res['Data']['Data'].slice(timeRange).map(element => {
         if (element.close > high) high = element.close
         if (element.close < low) low = element.close
         return {x: Number(element.time.toString() + '000'), y: element.close}
@@ -73,23 +78,23 @@ class CurrencyChart extends React.Component {
             {this.state.currentValue}
           </div>
           <div style={{textAlign: "center", fontFamily: 'Audiowide', color: "white"}}>
-          Current BTC Value in USD 
+          Current BTC Value in USD
           </div>
         </CurrentValue>
-        <XYPlot height={600} width={600} yDomain={this.state.yDomain}>
+        <StyledXYPlot height={600} width={600} yDomain={this.state.yDomain}>
           <VerticalGridLines />
           <HorizontalGridLines />
           <XAxis tickFormat={v => new Date(v).toTimeString().slice(0, 8)} />
           <YAxis />
-          <LineSeries 
+          <LineSeries
             style={{
               strokeLinejoin: 'round',
               strokeWidth: 2
-            }} 
-            animation 
-            data={this.state.data} 
+            }}
+            animation
+            data={this.state.data}
           />
-        </XYPlot>
+        </StyledXYPlot>
       </CurrencyChartDiv>
     )
   }

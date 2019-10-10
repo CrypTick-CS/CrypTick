@@ -24,25 +24,35 @@ class App extends React.Component {
   }
 
   authenticate(userData) {
-    console.log(userData);
-    fetch('/login', {
-      method: 'POST',
-      body: JSON.stringify(userData),
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    })
-    .then(res => res.json())
-    .then(res => {
-      console.log(res);
+    // a way to set and check session storage...?
+    if (sessionStorage.getItem('_CrypTick')){
       this.setState({
-        isAuthenticated: true,
-        dollarBalance: res.dollarBalance,
-        bitcoinBalance: res.bitcoinBalance
+        isAuthenticated: true
       });
-      this.props.history.push('/');
-    })
-    .catch(err => console.error(err))
+      this.props.history.push('/home');
+    }
+    else {
+      console.log(userData);
+      fetch('/login', {
+        method: 'POST',
+        body: JSON.stringify(userData),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+      .then(res => res.json())
+      .then(res => {
+        console.log('res', res)
+        sessionStorage.setItem('_CrypTick', res.email)
+        this.setState({
+          isAuthenticated: true,
+          dollarBalance: res.dollarBalance,
+          bitcoinBalance: res.bitcoinBalance
+        });
+        this.props.history.push('/home');
+      })
+      .catch(err => console.error(err))
+    }
   }
 
   signup(userData) {
@@ -71,7 +81,7 @@ class App extends React.Component {
     return (
         <Main>
           <Route exact path="/login" component={() => <Login authenticate={this.authenticate.bind(this)} signup={this.signup.bind(this)} />} />
-          <PrivateRoute exact path="/" authenticated={this.state.isAuthenticated} component={() => <Dashboard dollarBalance={this.state.dollarBalance} bitcoinBalance={this.state.bitcoinBalance} />} />
+          <PrivateRoute exact path="/home" authenticated={this.state.isAuthenticated} component={() => <Dashboard dollarBalance={this.state.dollarBalance} bitcoinBalance={this.state.bitcoinBalance} />} />
         </Main>
     );
   }

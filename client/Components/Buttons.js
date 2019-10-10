@@ -20,11 +20,32 @@ const ButtonsDiv = styled.div`
     border-radius: 10px;
 `;
 
+
+// TODO: GET RID OF THESE HARDCODED VALUES, AND PUT SOMETHING REAL THUR
+// email: sessionStorage.getItem('_CrypTick'),
+const sendTransaction = async (transType, cryptoType="BITCOIN") => {
+  const result = await fetch('/transaction',{
+    method: 'POST',
+    headers: {"content-type":"application/json"},
+    body: JSON.stringify({
+      email: sessionStorage.getItem('_CrypTick'),
+      transactionDetails: {
+          cryptoType: cryptoType,
+          transactionType: transType,
+          cryptoQty: 1,
+          cryptoVal: 5000.00,
+        }
+    })
+  });
+  const retval = await result.json();
+  return retval;
+}
+
 const Buttons = () => {
   return (
     <ButtonsDiv>
-      <Button className="buy">BUY</Button>
-      <Button className="sell">SELL</Button>
+      <Button className="buy" onClick={()=>{sendTransaction("BUY")}}>BUY</Button>
+      <Button className="sell" onClick={()=>{sendTransaction("SELL")}}>SELL</Button>
     </ButtonsDiv>
   )
 }

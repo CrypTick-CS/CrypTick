@@ -29,6 +29,7 @@ class App extends React.Component {
       this.setState({
         isAuthenticated: true
       });
+      this.props.history.push('/home');
     }
     else {
       console.log(userData);
@@ -48,7 +49,7 @@ class App extends React.Component {
           dollarBalance: res.dollarBalance,
           bitcoinBalance: res.bitcoinBalance
         });
-        this.props.history.push('/');
+        this.props.history.push('/home');
       })
       .catch(err => console.error(err))
     }
@@ -80,7 +81,7 @@ class App extends React.Component {
     return (
         <Main>
           <Route exact path="/login" component={() => <Login authenticate={this.authenticate.bind(this)} signup={this.signup.bind(this)} />} />
-          <PrivateRoute exact path="/" authenticated={this.state.isAuthenticated} component={() => <Dashboard dollarBalance={this.state.dollarBalance} bitcoinBalance={this.state.bitcoinBalance} />} />
+          <PrivateRoute exact path="/home" authenticated={this.state.isAuthenticated} component={() => <Dashboard dollarBalance={this.state.dollarBalance} bitcoinBalance={this.state.bitcoinBalance} />} />
         </Main>
     );
   }
